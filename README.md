@@ -20,8 +20,11 @@ The script is tailored for Arista switches and is using [pyeapi](https://github.
 The Google spreadsheet needs to follow the exact format.
 A sample spreadsheet can be found [HERE](https://docs.google.com/spreadsheets/d/12l3Q-th76AO2daifAsOwWcnlWg6zrYHp_pXvaQWuEgI/edit?usp=sharing)
 Please use "save as copy" to be able to edit.
+
 The demo spreadsheet was used to drive a vEOS instance, therefore it is only limited to 12 ports.
+
 More ports and vlans can be added to the spreadsheet.
+
 Ports of >10GbE and multi-lane ports are also supported (e.g. Ethernet7/3).
 
 User needs to supply the Google API json access token.
@@ -118,6 +121,7 @@ To stop the continious execution use keyboard interrupt `CTRL/CMD + C`
 ## Contributing
 
 This project is a demo, it is not heavily maintained.
+
 Pull requests are welcome. For major changes, please open an issue first to discuss what you would like to change.
 
 ## Release History
@@ -131,7 +135,7 @@ Pull requests are welcome. For major changes, please open an issue first to disc
 
 ## Meta
 
-Thanks you to Robert Welch (Arista Networks) and Anthony P. Kuzub (CBC/Radio Cannada) for support and inspiration
+Thank you to Robert Welch (Arista Networks) and Anthony P. Kuzub (CBC/Radio Cannada) for support and inspiration
 
 ## Licenses
 
@@ -144,5 +148,7 @@ Author – [Ievgen Kostiukevych](https://github.com/ievgen-kostiukevych), Europe
 ## Disclaimer
 
 The software is provided "As is", WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND.
+
 Use at your own risk.
+
 Lab testing is ALWAYS recomended before any use for production network.
