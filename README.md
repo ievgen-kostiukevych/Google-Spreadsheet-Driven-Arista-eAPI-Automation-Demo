@@ -33,7 +33,7 @@ User also needs to suply a config file that has an **exact** name of the spreads
 
 Example config file is provided.
 
-```bash
+```code
 spreadsheet:Switches
 ip:172.16.158.100
 username:admin
@@ -42,7 +42,7 @@ password:admin
 
 ## Requirements
 
-```bash
+```code
 pyeapi
 gspread
 oauth2client
@@ -53,13 +53,13 @@ colorlog
 
 Clone the repo.
 
-```bash
+```code
 git clone https://github.com/ievgen-kostiukevych/Google-Spreadsheet-Driven-Arista-eAPI-Automation-Demo.git
 ```
 
 Use the package manager [pip](https://pip.pypa.io/en/stable/) to install dependencies.
 
-```bash
+```code
 pip install requirements
 ```
 
@@ -67,7 +67,7 @@ pip install requirements
 
 Use `-h` for how-to use.
 
-```bash
+```code
 usage: automation.py [-h] [-vL] [-iD] [-iS] [-iV] [-c] config api [time]
 
 positional arguments:
@@ -95,19 +95,19 @@ optional arguments:
 
 Examples:
 
-```bash
+```code
 python automation.py -vL -iD -iS -iV -c demo_config.cfg switch-automation-api.json 30
 ```
 
 Script will execute all tasks every 30 seconds using `switch-automation-api.json` Google API access token and `demo_config.cfg` config source file
 
-```bash
+```code
 python automation.py -iD demo_config.cfg switch-automation-api.json
 ```
 
 Script will update interfaces descriptions once and will exit.
 
-```bash
+```code
 python automation.py -iV -c demo_config.cfg switch-automation-api.json
 ```
 
