@@ -1,0 +1,14 @@
+{
+  "type": "service_account",
+  "project_id": "switch-automation-api",
+  "private_key_id": "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
+  "private_key": "-----BEGIN PRIVATE KEY-----\Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum ac dolor leo. Vestibulum sed metus orci. Suspendisse tempor sollicitudin pharetra. Phasellus sagittis est nec sem sagittis vehicula. Aenean arcu tortor, suscipit eu nulla et, malesuada ultrices nibh. Donec vestibulum sapien sit amet tellus tempor tempor. Suspendisse potenti. Fusce id nulla ac nibh vehicula rutrum sit amet iaculis nisi.
+  Quisque congue, sapien in tincidunt ultrices, sapien lorem finibus sapien, ac euismod erat purus id ipsum. Nam efficitur posuere ex, ut finibus nisl blandit ac. Aliquam erat volutpat. Interdum et malesuada fames ac ante ipsum primis in faucibus. Integer nec auctor mauris, et elementum velit. Duis malesuada malesuada feugiat. Pellentesque ex ex, imperdiet et malesuada id, laoreet id lorem. Maecenas egestas facilisis mauris, id hendrerit dui posuere in. Quisque consequat hendrerit nibh, vitae euismod metus rhoncus a. Sed finibus accumsan arcu sit amet tempor. Suspendisse at leo tempor, aliquet dolor in, ultricies purus.
+  Phasellus eu eros vulputate, feugiat orci at, pellentesque nisl. Nulla elementum, magna eget tincidunt pellentesque, mauris nulla dictum urna, ac viverra ex arcu quis justo. Cras diam dui, efficitur ac elit vitae, facilisis pharetra sapien. Sed eros erat, consectetur vitae commodo nec, euismod vel felis. Ut luctus metus non consequat feugiat. Etiam mollis ante ac dignissim iaculis. Etiam fringilla cursus erat eu mattis. Donec ac eros sollicitudin, semper lectus eget, molestie orci. Donec commodo ultrices imperdiet. Cras pulvinar imperdiet massa, egestas efficitur dui semper non. Etiam vitae nisl eget dolor placerat eleifend interdum at sapien.\n-----END PRIVATE KEY-----\n",
+  "client_email": "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
+  "client_id": "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
+  "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+  "token_uri": "https://oauth2.googleapis.com/token",
+  "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+  "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/Loremipsumdolorsitametconsecteturadipiscingelit.gserviceaccount.com"
+}

@@ -1,0 +1,4 @@
+pyeapi
+gspread
+oauth2client
+colorlog
