@@ -32,6 +32,9 @@ Example token is provided, however it is a dummy file that will **not** give you
 You **have** to provide your own API token.
 Follow the first step from this article as a how-to: [LINK](https://www.twilio.com/blog/2017/02/an-easy-way-to-read-and-write-to-a-google-spreadsheet-in-python.html)
 
+Be aware, that the free tier of Google API has a usage quota. The limits can be found [HERE](https://developers.google.com/sheets/api/limits).
+The script will cathch the API quota exhaustion error, if occures, will wait 60 seconds and will try to reconnect before repeating the tasks.
+
 User also needs to suply a config file that has an **exact** name of the spreadsheet in your Google drive, IP address or a fully qualified domain name (FQDN) of the switch, and login and pass to the switch.
 
 Example config file is provided.
