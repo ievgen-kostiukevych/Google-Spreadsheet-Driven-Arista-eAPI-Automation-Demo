@@ -69,9 +69,9 @@ def googleAuthorize():
     credentials = ServiceAccountCredentials.from_json_keyfile_name(
         args.api, scope)
     # Athorization with extracted credentials
-    gc = gspread.authorize(credentials)
+    token = gspread.authorize(credentials)
     logger.info(' - Google Cloud API authorization successful')
-    return(gc)
+    return(token)
 
 
 # Initial authorization at program start
@@ -85,14 +85,16 @@ vlanPorts = switchConfigs.worksheet(
 interfacesMacTable = switchConfigs.worksheet('MAC addresses table')
 interfacesStatusTable = switchConfigs.worksheet('Interfaces status table')
 
+
 # =======================BEGIN FUNCTIONS DESCRIPTION======================
 
 
 def setInterfaceDescriptions():
     # Reads interfaces description from the spreadsheet and writes to the switch
     logger.info('===========================================')
-    logger.info(' - Updating interfaces descriprions...')
-    for port in vlanPorts.get_all_records():
+    logger.info(' - Updating interfaces descriptions...')
+    vlanPortsRec = vlanPorts.get_all_records()
+    for port in vlanPortsRec:
         portsDescription.set_description('Ethernet {}'.format(
             port['Port']), value=port['Description'])
     logger.info(' - Interfaces descriptions updated')
@@ -102,9 +104,10 @@ def createVlans():
     # Reads vlan list and names from the spreadsheet and writes to the switch
     logger.info('===========================================')
     logger.info(' - Updating vlan table...')
+    vlanListRec = vlanList.get_all_records()
     vlans = connectedSwitch.api('vlans')
     vlans.autorefresh = True
-    for vlan in vlanList.get_all_records():
+    for vlan in vlanListRec:
         vlans.create(vlan['Vlan ID'])
         vlans.set_name(vlan['Vlan ID'], name=vlan['Vlan Name'])
     logger.info(' - Vlan table updated')
@@ -115,7 +118,8 @@ def setInterfaceVlans():
     logger.info('===========================================')
     logger.info(' - Updating interface vlans...')
     currentVlans = portsVlans.getall()
-    for port in vlanPorts.get_all_records():
+    vlanPortsRec = vlanPorts.get_all_records()
+    for port in vlanPortsRec:
         try:
             if str(port['Vlan']) != str(currentVlans['Ethernet{}'.format(port['Port'])]['access_vlan']):
                 logger.warning(
@@ -133,15 +137,18 @@ def getInterfacesState():
     # Reads interfaces statuses and mac address table from the switch and writes to the spreadsheet
     logger.info('===========================================')
     logger.info(' - Updating interfaces status table..')
+
     getIterfaces = connectedSwitch.enable('show interfaces status')
     interfacesStatus = getIterfaces[0]['result']['interfaceStatuses']
     macAdrTable = connectedSwitch.enable('show mac address-table')
     unicastMacAdrTable = macAdrTable[0]['result']['unicastTable']['tableEntries']
+    lldpTable = connectedSwitch.enable('show lldp neighbors detail')
+    lldpTable = lldpTable[0]['result']['lldpNeighbors']
 
-    header = ['autoNegotiateActive', 'autoNegotigateActive', 'bandwidth',
+    header = ['bandwidth',
               'description', 'duplex', 'interfaceType', 'lineProtocolStatus', 'linkStatus', 'macAddress', 'entryType']
     # Define the cell range
-    cellRange = interfacesStatusTable.range('A2:L256')
+    cellRange = interfacesStatusTable.range('A2:M100')
 
     # Sort by interface name
     interfaceList = []
@@ -151,7 +158,9 @@ def getInterfacesState():
 
     # Flatten the list of dicts into a list of values in order
     flattened_test_data = []
+
     # ===================
+
     for i in interfaceList:
         for entry in unicastMacAdrTable:
             for value in entry.values():
@@ -168,12 +177,38 @@ def getInterfacesState():
             flattened_test_data.append(
                 interfacesStatus[i]['vlanInformation']['vlanId'])
         except KeyError:
-            flattened_test_data.append('N/A')
+            flattened_test_data.append('Routed')
+
         for j in header:
             try:
                 flattened_test_data.append(interfacesStatus[i][j])
             except KeyError:
                 flattened_test_data.append('N/A')
+
+    # ===================
+
+        try:
+            flattened_test_data.append(
+                lldpTable[i]['lldpNeighborInfo'][0]['chassisId'])
+        except IndexError:
+            flattened_test_data.append('N/A')
+        except KeyError:
+            flattened_test_data.append('N/A')
+        try:
+            flattened_test_data.append(
+                lldpTable[i]['lldpNeighborInfo'][0]['neighborInterfaceInfo']['interfaceId'])
+        except IndexError:
+            flattened_test_data.append('N/A')
+        except KeyError:
+            flattened_test_data.append('N/A')
+        try:
+            flattened_test_data.append(
+                lldpTable[i]['lldpNeighborInfo'][0]['ttl'])
+        except IndexError:
+            flattened_test_data.append('N/A')
+        except KeyError:
+            flattened_test_data.append('N/A')
+
     # Send flattened list to the cell range to be re-rendered as a table
     for i, cell in enumerate(cellRange):
         try:
@@ -189,8 +224,8 @@ def wait(message):
     # Introduces delay between task repetition and emergency delay after API quota error
     if message == 'api':
         logger.error(
-            ' - API quota exceeded! Waiting for 60 seconds before restarting...')
-        for i in range(60, 0, -1):
+            ' - API quota exceeded! Waiting for 100 seconds before restarting...')
+        for i in range(100, 0, -1):
             sys.stdout.write(str(i)+' ')
             sys.stdout.flush()
             time.sleep(1)
@@ -257,25 +292,31 @@ try:
                 createVlans()
             except gspread.exceptions.APIError:
                 wait('api')
+                del gc
                 gc = googleAuthorize()
         if args.interfaces_description:
             try:
                 setInterfaceDescriptions()
             except gspread.exceptions.APIError:
                 wait('api')
+                del gc
                 gc = googleAuthorize()
         if args.interfaces_vlans:
             try:
                 setInterfaceVlans()
             except gspread.exceptions.APIError:
                 wait('api')
+                del gc
                 gc = googleAuthorize()
         if args.interfaces_status:
             try:
                 getInterfacesState()
             except gspread.exceptions.APIError:
                 wait('api')
+                del gc
                 gc = googleAuthorize()
         wait('wait')
+        del gc
+        gc = googleAuthorize()
 except KeyboardInterrupt:
     logger.info('Stopped')

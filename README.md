@@ -14,6 +14,8 @@ The functionality currently realised:
 
 - Reading interfaces status and the mac address table from the switch and writing the data to the spreadsheet
 
+- Reading LLDP neighbours info (chassis ID, interface ID and ttl) from the switch and writing the data to the spreadsheet
+
 The script is using [oauth2client](https://github.com/googleapis/oauth2client) library for authentication and [gspread](https://github.com/burnash/gspread) to access Goggle APIs.
 The script is tailored for Arista switches and is using [pyeapi](https://github.com/arista-eosplus/pyeapi).
 
