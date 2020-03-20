@@ -16,7 +16,7 @@ The functionality currently realised:
 
 - Reading LLDP neighbours info (chassis ID, interface ID and ttl) from the switch and writing the data to the spreadsheet
 
-The script is using [oauth2client](https://github.com/googleapis/oauth2client) library for authentication and [gspread](https://github.com/burnash/gspread) to access Goggle APIs.
+The script is using [oauth2client](https://github.com/googleapis/oauth2client) library for authentication and [gspread](https://github.com/burnash/gspread) to access Google APIs.
 The script is tailored for Arista switches and is using [pyeapi](https://github.com/arista-eosplus/pyeapi).
 
 The Google spreadsheet needs to follow the exact format.
